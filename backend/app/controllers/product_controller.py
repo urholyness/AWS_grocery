@@ -65,6 +65,11 @@ def add_review(product_id):
         JSON: A JSON response indicating the result of the review submission.
     """
     try:
+        product_id = int(product_id)
+    except ValueError:
+        current_app.logger.warning(f"Invalid product ID format: {product_id}")
+        return jsonify({"error": "Invalid product ID"}), 400
+    try:
         # Get user ID from JWT
         user_id = get_jwt_identity()
         user_info = get_user_info(user_id)

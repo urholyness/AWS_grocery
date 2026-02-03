@@ -1,5 +1,11 @@
 .idea/aws.xml
+*.pem
 frontend/frontend-build.zip
 frontend/temp_extract/
 frontend/src/config.js~
-venv/
+*.tfvars
+.terraform/
+*.tfstate
+*.tfstate.backupm
+.env
+*.exe
