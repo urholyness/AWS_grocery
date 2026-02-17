@@ -12,3 +12,7 @@ def make_shell_context():
     Creates a shell context that adds the database and models to the shell session.
     """
     return dict(db=db, User=User, Product=Product)
+
+if __name__ == '__main__':
+app.run(host='0.0.0.0', port=80)    
+     

@@ -37,6 +37,16 @@ resource "aws_subnet" "private_subnet" {
       Name = "${var.project_name}-private-subnet"
     }
   }
+
+resource "aws_subnet" "private_subnet_2" {     # NEW RESOURCE BLOCK
+  vpc_id            = aws_vpc.main_vpc.id
+  availability_zone = "${var.aws_region}c"     # NEW AZ )
+  cidr_block        = "10.0.3.0/24"            # NEW CIDR )
+  tags = {
+    Name = "${var.project_name}-private-subnet-2"
+  }
+}
+
 resource "aws_internet_gateway" "ig_2tier" {
     vpc_id = aws_vpc.main_vpc.id
 
@@ -76,6 +86,12 @@ resource "aws_security_group" "aws_grocery_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["93.234.96.7/32"]
+  } 
+  ingress {                           # NEW INGRESS BLOCK
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]     
   }
 
   egress {
@@ -111,24 +127,29 @@ resource "aws_security_group" "rds_sg" {
 }
 resource "aws_instance" "aws_grocery_instance" {
   ami                         = "ami-00329fcfb4c23f789" # Amazon Linux 2 AMI (HVM), SSD Volume Type
-  key_name                    = "urholyness"
-  instance_type               = "t3.micro"
+  key_name                    = "urholyness" #var
+  instance_type               = "t3.micro"  #var
   subnet_id                   = aws_subnet.public_subnet.id
   vpc_security_group_ids      = [aws_security_group.aws_grocery_sg.id]
-  associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name # Make it officially work with the IAM role and policy for S3 access
 
   tags = {
     Name = "${var.project_name}-web-server"
-  }
+  } 
 }
 resource "aws_db_subnet_group" "db_subnet" {
   name       = "${var.project_name}-db-subnet-group"
-  subnet_ids = [aws_subnet.private_subnet.id, aws_subnet.public_subnet.id]
+  subnet_ids = [aws_subnet.private_subnet.id,
+  aws_subnet.private_subnet_2.id
+  ]
 
   tags = {
     Name = "${var.project_name}-db-subnet-group"
   }  
 }
+
+#S3 Bucket here
+
 resource "aws_db_instance" "database" {
   allocated_storage    = 20
   engine               = "postgres"
@@ -148,4 +169,14 @@ resource "aws_db_instance" "database" {
   }
   
 }
-  
+
+
+# This will print the exact name you need for Docker
+output "s3_bucket_for_docker" {
+  value = aws_s3_bucket.avatars.id
+}
+
+# This will print the region
+output "s3_region_for_docker" {
+  value = var.aws_region
+}

@@ -9,3 +9,5 @@ frontend/src/config.js~
 *.tfstate.backupm
 .env
 *.exe
+*terraform.lock.hcl
+*terraform.tfstate.backup
