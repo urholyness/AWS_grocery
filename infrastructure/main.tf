@@ -85,7 +85,7 @@ resource "aws_security_group" "aws_grocery_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["93.234.96.7/32"]
+    cidr_blocks = ["0.0.0.0/0"]
   } 
   ingress {                           # NEW INGRESS BLOCK
     from_port   = 5000

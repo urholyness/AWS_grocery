@@ -1,175 +1,56 @@
-# GroceryMate
+# AWS Grocery Store Project
 
-## 🏆 GroceryMate E-Commerce Platform
+Hi there! This is my project for the Masterschools program. It's an e-commerce website for a grocery store that I built and deployed on AWS.
 
-[![Python](https://img.shields.io/badge/Language-Python%2C%20JavaScript-blue)](https://www.python.org/)
-[![OS](https://img.shields.io/badge/OS-Linux%2C%20Windows%2C%20macOS-green)](https://www.kernel.org/)
-[![Database](https://img.shields.io/badge/Database-PostgreSQL-336791)](https://www.postgresql.org/)
-[![GitHub Release](https://img.shields.io/github/v/release/AlejandroRomanIbanez/AWS_grocery)](https://github.com/AlejandroRomanIbanez/AWS_grocery/releases/tag/v2.0.0)
-[![Free](https://img.shields.io/badge/Free_for_Non_Commercial_Use-brightgreen)](#-license)
+This README is a bit of a journal of my learning process through the cloud computing part of the course.
 
-⭐ **Star us on GitHub** — it motivates us a lot!
+## The Journey (The Fun Part!)
 
----
+Here's a week-by-week breakdown of how I built and deployed this thing.
 
-## 📌 Table of Contents
+### Week 2 & 3: Getting Started with EC2
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Screenshots & Demo](#-screenshots--demo)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-  - [Clone Repository](#-clone-repository)
-  - [Configure PostgreSQL](#-configure-postgresql)
-  - [Populate Database](#-populate-database)
-  - [Set Up Python Environment](#-set-up-python-environment)
-  - [Set Environment Variables](#-set-environment-variables)
-  - [Start the Application](#-start-the-application)
-- [Usage](#-usage)
-- [Contributing](#-contributing)
-- [License](#-license)
+- **What I did:** I started with the basics of AWS. I learned how to create an EC2 instance, which is basically a virtual server in the cloud.
+- **The Goal:** The main goal was to get the application running on this server so anyone could access it from the internet.
+- **In the code:** You can see the `aws_instance` resource in `infrastructure/main.tf`. This is the Terraform code that creates the EC2 server.
 
-## 🚀 Overview
+### Week 4: Docker Time!
 
-GroceryMate is an application developed as part of the Masterschools program by **Alejandro Roman Ibanez**. It is a modern, full-featured e-commerce platform designed for seamless online grocery shopping. It provides an intuitive user interface and a secure backend, allowing users to browse products, manage their shopping basket, and complete purchases efficiently.
+- **What I did:** I learned about Docker and how to put my application into a container. This makes it easier to run the app anywhere.
+- **The Goal:** Get the backend (the Python part) running inside a Docker container on the EC2 instance.
+- **In the code:** Check out the `Dockerfile` in the `backend` folder. It's a simple recipe for building the container image for my app.
 
-GroceryMate is a modern, full-featured e-commerce platform designed for seamless online grocery shopping. It provides an intuitive user interface and a secure backend, allowing users to browse products, manage their shopping basket, and complete purchases efficiently.
+### Week 5: Adding a Real Database with RDS
 
-## 🛒 Features
+- **What I did:** My app needed a database, so I learned how to use Amazon RDS (Relational Database Service). I set up a PostgreSQL database.
+- **The Goal:** To have a proper, managed database that my application could connect to, instead of just a file on the server.
+- **In the code:** In `infrastructure/main.tf`, you'll find the `aws_db_instance` resource. This is the Terraform code for the RDS database.
 
-- **🛡️ User Authentication**: Secure registration, login, and session management.
-- **🔒 Protected Routes**: Access control for authenticated users.
-- **🔎 Product Search & Filtering**: Browse products, apply filters, and sort by category or price.
-- **⭐ Favorites Management**: Save preferred products.
-- **🛍️ Shopping Basket**: Add, view, modify, and remove items.
-- **💳 Checkout Process**:
-  - Secure billing and shipping information handling.
-  - Multiple payment options.
-  - Automatic total price calculation.
+### Week 6: Infrastructure as Code (IaC) with Terraform
 
-## 📸 Screenshots & Demo
+- **What I did:** This was a cool week. I learned how to write code to create my cloud stuff instead of clicking around in the AWS console. I used Terraform for this.
+- **The Goal:** To automate the whole setup process. Now I can destroy and recreate my entire application infrastructure with a few commands.
+- **In the code:** The whole `infrastructure` folder is dedicated to this! `main.tf` is the main file that defines almost everything: the server, the database, the networking, etc.
 
-![imagen](https://github.com/user-attachments/assets/ea039195-67a2-4bf2-9613-2ee1e666231a)
-![imagen](https://github.com/user-attachments/assets/a87e5c50-5a9e-45b8-ad16-2dbff41acd00)
-![imagen](https://github.com/user-attachments/assets/589aae62-67ef-4496-bd3b-772cd32ca386)
-![imagen](https://github.com/user-attachments/assets/2772b85e-81f7-446a-9296-4fdc2b652cb7)
+### Week 7: Storing Files in S3
 
-https://github.com/user-attachments/assets/d1c5c8e4-5b16-486a-b709-4cf6e6cce6bc
+- **What I did:** I needed a place to store user profile pictures. I learned about Amazon S3 (Simple Storage Service) for this.
+- **The Goal:** Modify the application so that when a user uploads an avatar, it gets saved in an S3 bucket.
+- **In the code:** `infrastructure/s3.tf` has the code that creates the S3 bucket. I also had to create an IAM role (also in the `.tf` files) to give my EC2 instance permission to talk to the S3 bucket.
 
-## 📋 Prerequisites
+### Week 8: Tying it all together
 
-Ensure the following dependencies are installed before running the application:
+- **What I did:** This week was all about finishing up the project, making sure everything works, and writing this README!
+- **The Goal:** Have a complete, working project that shows everything I learned.
 
-- **🐍 Python (>=3.11)**
-- **🐘 PostgreSQL** – Database for storing product and user information.
-- **🛠️ Git** – Version control system.
+## About the Project
 
-## ⚙️ Installation
+This is a full-stack e-commerce application with:
+- A **React frontend** (in the `frontend` folder).
+- A **Python (Flask) backend** (in the `backend` folder).
+- All the AWS infrastructure defined in **Terraform** (in the `infrastructure` folder).
 
-### 🔹 Clone Repository
+Thanks for checking out my project!
 
-```sh
-git clone --branch version2 https://github.com/AlejandroRomanIbanez/AWS_grocery.git && cd AWS_grocery
-```
-
-### 🔹 Configure PostgreSQL
-
-Before creating the database user, you can choose a custom username and password to enhance security. Replace `<your_secure_password>` with a strong password of your choice in the following commands.
-
-Create database and user:
-
-```sh
-psql -U postgres -c "CREATE DATABASE grocerymate_db;"
-psql -U postgres -c "CREATE USER grocery_user WITH ENCRYPTED PASSWORD '<your_secure_password>';"  # Replace <your_secure_password> with a strong password of your choice
-psql -U postgres -c "ALTER USER grocery_user WITH SUPERUSER;"
-```
-
-### 🔹 Populate Database
-
-```sh
-psql -U grocery_user -d grocerymate_db -f backend/app/sqlite_dump_clean.sql
-```
-
-Verify insertion:
-
-```sh
-psql -U grocery_user -d grocerymate_db -c "SELECT * FROM users;"
-psql -U grocery_user -d grocerymate_db -c "SELECT * FROM products;"
-```
-
-### 🔹 Set Up Python Environment
-
-
-Install dependencies in an activated virtual Enviroment:
-
-```sh
-cd backend
-pip install -r requirements.txt
-```
-OR (if pip doesn't exist)
-```sh
-pip3 install -r requirements.txt
-```
-
-### 🔹 Set Environment Variables
-
-Create a `.env` file:
-
-```sh
-touch .env  # macOS/Linux
-ni .env -Force  # Windows
-```
-
-Generate a secure JWT key:
-
-```sh
-python3 -c "import secrets; print(secrets.token_hex(32))"
-```
-
-Update `.env`:
-
-```sh
-nano .env
-```
-
-Fill in the following information (make sure to replace the placeholders):
-
-```ini
-JWT_SECRET_KEY=<your_generated_key>
-POSTGRES_USER=grocery_user
-POSTGRES_PASSWORD=<your_password>
-POSTGRES_DB=grocerymate_db
-POSTGRES_HOST=localhost
-POSTGRES_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
-```
-
-### 🔹 Start the Application
-
-```sh
-python3 run.py
-```
-
-## 📖 Usage
-
-- Access the application at [http://localhost:5000](http://localhost:5000)
-- Register/Login to your account
-- Browse and search for products
-- Manage favorites and shopping basket
-- Proceed through the checkout process
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new feature branch (`feature/your-feature`).
-3. Implement your changes and commit them.
-4. Push your branch and create a pull request.
-
-## 📜 License
-
-This project is licensed under the MIT License.
-
-
-
+/assets/infra.png
 

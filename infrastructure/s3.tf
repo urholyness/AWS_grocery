@@ -6,6 +6,13 @@ resource "aws_s3_bucket" "avatars" {
     Environment = "Dev"
   }
 }
+
+resource "aws_s3_bucket_versioning" "avatars_versioning" {
+  bucket = aws_s3_bucket.avatars.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
 # This resource block ensures that the S3 bucket is not publicly accessible, which is a crucial security measure to protect the data stored in the bucket. By blocking public ACLs and policies, and restricting public bucket access, we can prevent unauthorized access to the avatars stored in the S3 bucket.
 resource "aws_s3_bucket_public_access_block" "avatars" {
   bucket = aws_s3_bucket.avatars.id
