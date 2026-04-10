@@ -26,5 +26,9 @@ variable "aws_profile" {
   description = "The AWS CLI profile to use."
   type        = string
   default     = "AdministratorAccess-941781854407"
-  
+}
+
+variable "alert_email" {
+  description = "Email address to receive CloudWatch alarm notifications."
+  type        = string
 }
